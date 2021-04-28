@@ -37,35 +37,58 @@ object GameService {
         CREATE_GAME(
             //Finn ut hva '"%1s%2s%3s".format' vil si
             "%1s%2s%3s".format(
+                context.getString(R.string.protocol),   //protocol = using https as stated in strings.xml
+                context.getString(R.string.domain),     //domain = using the generic-game-service.herokuapp.com domain, as stated in strings.xml
+                context.getString(R.string.base_path)   //base_path = using path to game
+            )
+        ),
+        JOIN_GAME(
+            "%1s%2s%3s".format(
                 context.getString(R.string.protocol),
                 context.getString(R.string.domain),
-                context.getString(R.string.base_path)
+                context.getString(R.string.join_game_path)
             )
+        ),
+        UPDATE_GAME(
+            "%1s%2s%3s".format(
+                context.getString(R.string.protocol),
+                context.getString(R.string.domain),
+                context.getString(R.string.update_game_path)
+            )
+        ),
+        POLL_GAME(
+            "%1s%2s%3s".format(
+                context.getString(R.string.protocol),
+                context.getString(R.string.domain),
+                context.getString(R.string.poll_game_path)
+            )
+
         )
+
     }
 
 
     //Function to create game
-    fun createGame(playerId:String, state:GameState, callback:GameServiceCallback) {
+    fun createGame(playerId: String, state: GameState, callback: GameServiceCallback) {
 
         //An API endpoint is basically a fancy word for a URL of a server or service
         val url = APIEndpoints.CREATE_GAME.url
 
         val requestData = JSONObject()
         requestData.put("player", playerId)
-        requestData.put("state",state)
+        requestData.put("state", state)
 
         val request = object : JsonObjectRequest(
             Request.Method.POST, url, requestData,
             {
                 // Success game created. "val game" is this game instance.
-                // Will probably use Gson().fromJson in later functions
+                // Will probably use Gson().fromJson in later functions.. https://medium.com/@hissain.khan/parsing-with-google-gson-library-in-android-kotlin-7920e26f5520
                 val game = Gson().fromJson(it.toString(0), Game::class.java)
-                callback(game,null)
+                callback(game, null)
             }, {
                 // Error creating new game.
                 callback(null, it.networkResponse.statusCode)
-            } ) {
+            }) {
 
             // MutableMap
             // A modifiable collection that holds pairs of objects (keys and values)
@@ -90,16 +113,102 @@ object GameService {
         requestQue.add(request)
     }
 
-    fun joinGame(playerId:String, gameId:String, callback: GameServiceCallback){
+    fun joinGame(playerId: String, gameId: String, callback: GameServiceCallback) {
+
+        val url = APIEndpoints.JOIN_GAME.url
+
+        val requestData = JSONObject()
+        requestData.put("player", playerId)
+        requestData.put("gameId", gameId)
+
+        val request = object : JsonObjectRequest(
+            Request.Method.POST, url, requestData,
+            {
+                // Success game joined. "val game" is this game instance.
+                val game = Gson().fromJson(it.toString(0), Game::class.java)
+                callback(game, null)
+            }, {
+                // Error joining game
+                callback(null, it.networkResponse.statusCode)
+            }) {
+
+
+            override fun getHeaders(): MutableMap<String, String> {
+
+                val headers = HashMap<String, String>()
+
+                headers["Content-Type"] = "application/json"
+
+                headers["Game-Service-Key"] = context.getString(R.string.game_service_key)
+                return headers
+            }
+
+        }
+        requestQue.add(request)
+    }
+
+    fun updateGame(gameId: String, gameState: GameState, callback: GameServiceCallback) {
+        val url = APIEndpoints.UPDATE_GAME.url
+
+        val requestData = JSONObject()
+        requestData.put("gameId", gameId)
+        requestData.put("gamState", gameState)
+
+        val request = object : JsonObjectRequest(
+            Request.Method.POST, url, requestData,
+            {
+                // Success game updated. "val game" is this game instance.
+                val game = Gson().fromJson(it.toString(0), Game::class.java)
+                callback(game, null)
+            }, {
+                callback(null, it.networkResponse.statusCode)
+            }) {
+
+
+            override fun getHeaders(): MutableMap<String, String> {
+
+                val headers = HashMap<String, String>()
+
+                headers["Content-Type"] = "application/json"
+
+                headers["Game-Service-Key"] = context.getString(R.string.game_service_key)
+                return headers
+            }
+
+        }
+        requestQue.add(request)
 
     }
 
-    fun updateGame(gameId: String, gameState:GameState, callback: GameServiceCallback){
+    fun pollGame(gameId: String, callback: GameServiceCallback) {
 
-    }
+        val url = APIEndpoints.POLL_GAME.url
 
-    fun pollGame(gameId: String,callback:GameServiceCallback){
+        val requestData = JSONObject()
+        requestData.put("gameId", gameId)
 
+        val request = object : JsonObjectRequest(
+            Request.Method.POST, url, requestData,
+            {
+                val game = Gson().fromJson(it.toString(0), Game::class.java)
+                callback(game, null)
+            }, {
+                callback(null, it.networkResponse.statusCode)
+            }) {
+
+
+            override fun getHeaders(): MutableMap<String, String> {
+
+                val headers = HashMap<String, String>()
+
+                headers["Content-Type"] = "application/json"
+
+                headers["Game-Service-Key"] = context.getString(R.string.game_service_key)
+                return headers
+            }
+
+        }
+        requestQue.add(request)
     }
 
 }
