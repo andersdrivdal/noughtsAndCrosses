@@ -103,8 +103,7 @@ object GameService {
                 val headers = HashMap<String, String>()
                 // Type of map key = json
                 headers["Content-Type"] = "application/json"
-                // Type of map value = game service key (a key that is specific to this
-                // game instance, and can be used by another player to join the game)
+                // Type of map value = game service key
                 headers["Game-Service-Key"] = context.getString(R.string.game_service_key)
                 return headers
             }
