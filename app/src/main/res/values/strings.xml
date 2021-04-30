@@ -5,7 +5,6 @@
     <string name="domain">generic-game-service.herokuapp.com</string>
     <string name="base_path">/Game</string>
     <string name="create_game_path">/Game</string>
-    <string name="join_game_path">/Game/join</string>
     <string name="poll_game_path">/Game/poll</string>
     <string name="update_game_path">/Game/update</string>
     <string name="game_service_key">gjF9ebA3Ix</string>
@@ -17,7 +16,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="player_name">Player name</string>
-    <string name="game_id">game_id</string>
+    <string name="game_id">Game ID</string>
 
 
 </resources>

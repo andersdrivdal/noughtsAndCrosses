@@ -118,11 +118,13 @@ object GameService {
 
     fun joinGame(playerId: String, gameId: String, callback: GameServiceCallback) {
 
-        val url = APIEndpoints.JOIN_GAME.url
-
         val requestData = JSONObject()
         requestData.put("player", playerId)
-        requestData.put("gameId", JSONArray(gameId))
+        requestData.put("gameId", gameId)
+        println(requestData)
+
+        val url = "https://generic-game-service.herokuapp.com/Game/$gameId/Join"
+
 
         val request = object : JsonObjectRequest(
             Request.Method.POST, url, requestData,
@@ -130,6 +132,8 @@ object GameService {
                 // Success game joined. "val game" is this game instance.
                 val game = Gson().fromJson(it.toString(0), Game::class.java)
                 callback(game, null)
+                // To see if game instance is returned
+                println("$game")
             }, {
                 // Error joining game
                 callback(null, it.networkResponse.statusCode)
