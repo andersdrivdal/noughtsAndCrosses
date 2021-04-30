@@ -11,6 +11,8 @@ import com.example.noughtsandcrosses.api.GameService.context
 import com.example.noughtsandcrosses.api.data.Game
 import com.example.noughtsandcrosses.api.data.GameState
 import com.google.gson.Gson
+import com.google.gson.JsonArray
+import org.json.JSONArray
 import org.json.JSONObject
 
 
@@ -22,6 +24,7 @@ object GameService {
     private val context = App.context
 
     //Queue for performing requests
+    //Takes parameter method
     private val requestQue: RequestQueue = Volley.newRequestQueue(context)
 
     // An API endpoint is a point at which an application program interface
@@ -76,7 +79,7 @@ object GameService {
 
         val requestData = JSONObject()
         requestData.put("player", playerId)
-        requestData.put("state", state)
+        requestData.put("state", JSONArray(state))
 
         val request = object : JsonObjectRequest(
             Request.Method.POST, url, requestData,
@@ -84,6 +87,7 @@ object GameService {
                 // Success game created. "val game" is this game instance.
                 // Will probably use Gson().fromJson in later functions.. https://medium.com/@hissain.khan/parsing-with-google-gson-library-in-android-kotlin-7920e26f5520
                 val game = Gson().fromJson(it.toString(0), Game::class.java)
+                println("${game}")
                 callback(game, null)
             }, {
                 // Error creating new game.
@@ -118,7 +122,7 @@ object GameService {
 
         val requestData = JSONObject()
         requestData.put("player", playerId)
-        requestData.put("gameId", gameId)
+        requestData.put("gameId", JSONArray(gameId))
 
         val request = object : JsonObjectRequest(
             Request.Method.POST, url, requestData,
@@ -187,7 +191,7 @@ object GameService {
         requestData.put("gameId", gameId)
 
         val request = object : JsonObjectRequest(
-            Request.Method.POST, url, requestData,
+            Request.Method.GET, url, requestData,
             {
                 val game = Gson().fromJson(it.toString(0), Game::class.java)
                 callback(game, null)
