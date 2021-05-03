@@ -3,6 +3,7 @@ package com.example.noughtsandcrosses
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.example.noughtsandcrosses.api.GameService
 import com.example.noughtsandcrosses.databinding.ActivityMainBinding
 import com.example.noughtsandcrosses.dialogs.CreateGameDialog
 import com.example.noughtsandcrosses.dialogs.GameDialogListener
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity(), GameDialogListener {
             joinGame()
         }
 
+
     }
 
     private fun createNewGame(){
@@ -38,6 +40,7 @@ class MainActivity : AppCompatActivity(), GameDialogListener {
         val dlg = JoinGameDialog()
         dlg.show(supportFragmentManager,"JoinGameDialogFragment")
     }
+
 
     override fun onDialogCreateGame(player: String) {
         Log.d(TAG,player)

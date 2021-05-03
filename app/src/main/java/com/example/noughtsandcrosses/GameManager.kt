@@ -32,7 +32,6 @@ object GameManager {
                 /// TODO("We have a game. What to do?)
             }
         }
-
     }
 
 

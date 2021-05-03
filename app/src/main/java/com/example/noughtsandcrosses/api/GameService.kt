@@ -44,30 +44,7 @@ object GameService {
                 context.getString(R.string.domain),     //domain = using the generic-game-service.herokuapp.com domain, as stated in strings.xml
                 context.getString(R.string.base_path)   //base_path = using path to game
             )
-        ),
-        JOIN_GAME(
-            "%1s%2s%3s".format(
-                context.getString(R.string.protocol),
-                context.getString(R.string.domain),
-                context.getString(R.string.join_game_path)
-            )
-        ),
-        UPDATE_GAME(
-            "%1s%2s%3s".format(
-                context.getString(R.string.protocol),
-                context.getString(R.string.domain),
-                context.getString(R.string.update_game_path)
-            )
-        ),
-        POLL_GAME(
-            "%1s%2s%3s".format(
-                context.getString(R.string.protocol),
-                context.getString(R.string.domain),
-                context.getString(R.string.poll_game_path)
-            )
-
         )
-
     }
 
 
@@ -87,7 +64,7 @@ object GameService {
                 // Success game created. "val game" is this game instance.
                 // Will probably use Gson().fromJson in later functions.. https://medium.com/@hissain.khan/parsing-with-google-gson-library-in-android-kotlin-7920e26f5520
                 val game = Gson().fromJson(it.toString(0), Game::class.java)
-                println("${game}")
+                println("$game")
                 callback(game, null)
             }, {
                 // Error creating new game.
@@ -118,12 +95,12 @@ object GameService {
 
     fun joinGame(playerId: String, gameId: String, callback: GameServiceCallback) {
 
+        val url = "https://generic-game-service.herokuapp.com/Game/$gameId/Join"
+
         val requestData = JSONObject()
         requestData.put("player", playerId)
         requestData.put("gameId", gameId)
         println(requestData)
-
-        val url = "https://generic-game-service.herokuapp.com/Game/$gameId/Join"
 
 
         val request = object : JsonObjectRequest(
@@ -155,11 +132,11 @@ object GameService {
     }
 
     fun updateGame(gameId: String, gameState: GameState, callback: GameServiceCallback) {
-        val url = APIEndpoints.UPDATE_GAME.url
+        val url = "https://generic-game-service.herokuapp.com/Game/$gameId/Update"
 
         val requestData = JSONObject()
         requestData.put("gameId", gameId)
-        requestData.put("gamState", gameState)
+        requestData.put("gameState", gameState)
 
         val request = object : JsonObjectRequest(
             Request.Method.POST, url, requestData,
@@ -167,6 +144,7 @@ object GameService {
                 // Success game updated. "val game" is this game instance.
                 val game = Gson().fromJson(it.toString(0), Game::class.java)
                 callback(game, null)
+                println("$game")
             }, {
                 callback(null, it.networkResponse.statusCode)
             }) {
@@ -189,7 +167,7 @@ object GameService {
 
     fun pollGame(gameId: String, callback: GameServiceCallback) {
 
-        val url = APIEndpoints.POLL_GAME.url
+        val url = "https://generic-game-service.herokuapp.com/Game/$gameId/Poll"
 
         val requestData = JSONObject()
         requestData.put("gameId", gameId)
