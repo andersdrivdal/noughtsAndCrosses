@@ -131,12 +131,12 @@ object GameService {
         requestQue.add(request)
     }
 
-    fun updateGame(gameId: String, gameState: GameState, callback: GameServiceCallback) {
+    fun updateGame(gameId: String, state: GameState, callback: GameServiceCallback) {
         val url = "https://generic-game-service.herokuapp.com/Game/$gameId/Update"
 
         val requestData = JSONObject()
         requestData.put("gameId", gameId)
-        requestData.put("gameState", gameState)
+        requestData.put("state", JSONArray(state))
 
         val request = object : JsonObjectRequest(
             Request.Method.POST, url, requestData,
@@ -144,7 +144,7 @@ object GameService {
                 // Success game updated. "val game" is this game instance.
                 val game = Gson().fromJson(it.toString(0), Game::class.java)
                 callback(game, null)
-                println("$game")
+                println("Actually updated $game")//To verify functional update function
             }, {
                 callback(null, it.networkResponse.statusCode)
             }) {
@@ -169,14 +169,12 @@ object GameService {
 
         val url = "https://generic-game-service.herokuapp.com/Game/$gameId/Poll"
 
-        val requestData = JSONObject()
-        requestData.put("gameId", gameId)
-
         val request = object : JsonObjectRequest(
-            Request.Method.GET, url, requestData,
+            Request.Method.GET, url, null,
             {
                 val game = Gson().fromJson(it.toString(0), Game::class.java)
                 callback(game, null)
+                println("Actually polled $game") //To verify functional poll function
             }, {
                 callback(null, it.networkResponse.statusCode)
             }) {

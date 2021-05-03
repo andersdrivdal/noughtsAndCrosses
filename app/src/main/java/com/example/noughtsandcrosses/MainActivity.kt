@@ -28,6 +28,8 @@ class MainActivity : AppCompatActivity(), GameDialogListener {
             joinGame()
         }
 
+        GameManager.createGame("Anders")
+
 
     }
 
