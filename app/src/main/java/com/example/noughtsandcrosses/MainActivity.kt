@@ -9,11 +9,19 @@ import com.example.noughtsandcrosses.dialogs.CreateGameDialog
 import com.example.noughtsandcrosses.dialogs.GameDialogListener
 import com.example.noughtsandcrosses.dialogs.JoinGameDialog
 
+
+
+
+
 class MainActivity : AppCompatActivity(), GameDialogListener {
 
     val TAG:String = "MainActivity"
 
     lateinit var binding: ActivityMainBinding
+
+    companion object {
+        lateinit var mainContext: MainActivity
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,8 +36,7 @@ class MainActivity : AppCompatActivity(), GameDialogListener {
             joinGame()
         }
 
-        GameManager.createGame("Anders")
-
+        mainContext = this
 
     }
 

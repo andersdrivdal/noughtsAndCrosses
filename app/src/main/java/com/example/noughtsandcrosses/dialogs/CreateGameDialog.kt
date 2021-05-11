@@ -3,9 +3,11 @@ package com.example.noughtsandcrosses.dialogs
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.example.noughtsandcrosses.GameManager
+import com.example.noughtsandcrosses.MainActivity
 import com.example.noughtsandcrosses.databinding.DialogCreateGameBinding
 
 
@@ -23,12 +25,14 @@ class CreateGameDialog() : DialogFragment() {
             val inflater = requireActivity().layoutInflater
             val binding = DialogCreateGameBinding.inflate(inflater)
 
+
             builder.apply {
                 setTitle("Create game")
                 setPositiveButton("Create") { dialog, which ->
                     if(binding.username.text.toString() != ""){
                         //listener.onDialogCreateGame(binding.username.text.toString())
                         GameManager.createGame(binding.username.text.toString())
+
                     }
                 }
                 setNegativeButton("Cancel") { dialog, which ->
