@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/teal_700"
     tools:context=".GameActivity">
+
+
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -17,11 +20,52 @@
 
         <TextView
             android:layout_width="wrap_content"
+            android:textSize="32dp"
             android:layout_height="wrap_content"
             android:id="@+id/GameIdText">
         </TextView>
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/players">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="40dp"
+            android:textSize="25sp"
+            android:id="@+id/playerOne">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/versus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/red"
+            android:textSize="20sp">
+        </TextView>
+
+        <TextView
+            android:id="@+id/playerTwo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="40dp"
+            android:textSize="25sp">
+
+        </TextView>
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/topLeft"
@@ -155,18 +199,16 @@
         app:layout_constraintStart_toEndOf="@+id/lowMiddle"
         app:layout_constraintTop_toBottomOf="@+id/midLeft" />
 
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/lowMiddle"
         android:layout_marginTop="60dp"
-        android:id="@+id/resetGame"
-        android:text="Reset Game"
+        android:id="@+id/exitGame"
+        android:text="Exit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         >
-
 
     </Button>
 

@@ -4,9 +4,9 @@ import com.example.noughtsandcrosses.api.data.Game
 
 class Holders {
 
-    class CurrentStatusHolder {
+    class GameFinishedHolder {
         companion object {
-            var currentStatus: Boolean = false
+            var finished: Boolean = false
         }
     }
 

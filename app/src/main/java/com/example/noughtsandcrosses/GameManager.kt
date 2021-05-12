@@ -73,6 +73,8 @@ object GameManager {
             }
         }
     }
+
+
     fun makeMove(position: Position){
         val temporaryState : GameState = Holders.GameSessionHolder.GameSession!!.state
         if (temporaryState[position.row][position.column] == "0") {
@@ -80,9 +82,30 @@ object GameManager {
             updateGame(Holders.GameSessionHolder.GameSession!!.gameId, temporaryState)
             }
         }
+
+    fun checkGameStatus(Mark: String,state: GameState): ThreeInARow? {
+        if (state[0][0] == Mark && state[0][1] == Mark && state[0][2] == Mark) {
+            return ThreeInARow.ROW_0
+        } else if (state[1][0] == Mark && state[1][1] == Mark && state[1][2] == Mark) {
+            return ThreeInARow.ROW_1
+        } else if (state[2][0] == Mark && state[2][1] == Mark && state[2][2] == Mark) {
+            return ThreeInARow.ROW_2
+        } else if (state[0][0] == Mark && state[1][0] == Mark && state[2][0] == Mark) {
+            return ThreeInARow.COLUMN_0
+        } else if (state[0][1] == Mark && state[1][1] == Mark && state[2][1] == Mark) {
+            return ThreeInARow.COLUMN_1
+        } else if (state[0][2] == Mark && state[1][2] == Mark && state[2][2] == Mark) {
+            return ThreeInARow.COLUMN_2
+        } else if (state[0][0] == Mark && state[1][1] == Mark && state[2][2] == Mark) {
+            return ThreeInARow.DIAGONAL_LEFT
+        } else if (state[0][2] == Mark && state[1][1] == Mark && state[2][0] == Mark) {
+            return ThreeInARow.DIAGONAL_RIGHT
+        }
+        return null
     }
 
-    fun resetGame(){
-        updateGame(Holders.GameSessionHolder.GameSession!!.gameId, StartingGameState )
-    }
+}
+
+
+
 

@@ -1,6 +1,6 @@
 package com.example.noughtsandcrosses
 
-enum class WinningLine {
+enum class ThreeInARow {
     ROW_0,
     ROW_1,
     ROW_2,

@@ -2,7 +2,6 @@ package com.example.noughtsandcrosses
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.noughtsandcrosses.api.data.Game
 import com.example.noughtsandcrosses.databinding.ActivityGameBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +26,7 @@ class GameActivity : AppCompatActivity() {
             Holders.PlayerPieceHolder.OpponentsPlayerPiece = "X"
         }
 
-        Holders.CurrentStatusHolder.currentStatus = false
+        Holders.GameFinishedHolder.finished = false
 
         updateScreen()
 
@@ -41,7 +40,8 @@ class GameActivity : AppCompatActivity() {
         binding.lowMiddle.setOnClickListener { onPiecePlaced(Position(2, 1)) }
         binding.lowRight.setOnClickListener { onPiecePlaced(Position(2, 2)) }
 
-        binding.resetGame.setOnClickListener{ resetGame()}
+        binding.exitGame.setOnClickListener { finish() }
+
     }
 
     private fun onPiecePlaced(position: Position) {
@@ -66,28 +66,22 @@ class GameActivity : AppCompatActivity() {
         var yourMove = false
         val count = countCurrentBoard()
         when (Holders.PlayerPieceHolder.YourPlayerPiece) {
-            "X" -> {
-                when (count) {
-                    0, 2, 4, 6, 8 -> yourMove = true
-                }
+            "X" -> {when (count){0, 2, 4, 6, 8 -> yourMove = true}
             }
-            "O" -> {
-                when (count) {
-                    1, 3, 5, 7 -> yourMove = true
-                }
+            "O" -> {when (count){1, 3, 5, 7 -> yourMove = true}
             }
         }
         return yourMove
     }
 
-
     fun updateScreen() {
         CoroutineScope(Dispatchers.IO).launch {
-            while (!Holders.CurrentStatusHolder.currentStatus) {
+            while (!Holders.GameFinishedHolder.finished) {
                 GameManager.pollGame(Holders.GameSessionHolder.GameSession!!.gameId)
                 delay(1000)
                 this@GameActivity.runOnUiThread {
-                    binding.GameIdText.text = Holders.GameSessionHolder.GameSession?.gameId
+                    val game = Holders.GameSessionHolder.GameSession!!
+                    ("Game ID: " + Holders.GameSessionHolder.GameSession?.gameId).also { binding.GameIdText.text = it }
                     binding.topLeft.text =
                         Holders.GameSessionHolder.GameSession!!.state[0][0].takeUnless { it == "0" }
                     binding.topMiddle.text =
@@ -106,9 +100,49 @@ class GameActivity : AppCompatActivity() {
                         Holders.GameSessionHolder.GameSession!!.state[2][1].takeUnless { it == "0" }
                     binding.lowRight.text =
                         Holders.GameSessionHolder.GameSession!!.state[2][2].takeUnless { it == "0" }
-
+                    if (Holders.GameSessionHolder.GameSession!!.players.size == 2) {
+                        binding.playerOne.text = game.players[0]
+                        "VS".also { binding.versus.text = it }
+                        binding.playerTwo.text = game.players[1]
+                        binding.GameIdText.text = null
+                    }
+                    gameFinishedTest()
                 }
             }
+        }
+    }
+
+
+    private fun gameFinishedTest() {
+        val game = Holders.GameSessionHolder.GameSession?.state!!
+        when (Holders.PlayerPieceHolder.YourPlayerPiece) {
+            "X" -> {
+                if (GameManager.checkGameStatus("X", game) != null) {
+                    GameManager.checkGameStatus("X", game)//?.let { showWinner(it) }
+                    binding.GameIdText.text = "Winner!"
+                    Holders.GameFinishedHolder.finished = true
+                }
+                if (GameManager.checkGameStatus("O", game) != null) {
+                    GameManager.checkGameStatus("O", game)//?.let { showWinner(it) }
+                    binding.GameIdText.text = "Loser!"
+                    Holders.GameFinishedHolder.finished = true
+                }
+            }
+            "O" -> {
+                if (GameManager.checkGameStatus("O", game) != null) {
+                    GameManager.checkGameStatus("O", game)//?.let { showWinner(it) }
+                    binding.GameIdText.text = "Winner!"
+                    Holders.GameFinishedHolder.finished = true
+                }
+                if (GameManager.checkGameStatus("X", game) != null) {
+                    GameManager.checkGameStatus("X", game)//?.let { showWinner(it) }
+                    binding.GameIdText.text = "Loser!"
+                    Holders.GameFinishedHolder.finished = true
+                }
+            }
+        }
+        if (countCurrentBoard() == 9 && !Holders.GameFinishedHolder.finished) {
+            binding.GameIdText.text = "Draw!"
         }
     }
 }
