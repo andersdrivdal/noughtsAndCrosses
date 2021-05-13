@@ -6,9 +6,10 @@
         <entry key="..\:/Users/ander/noughtsAndCrosses/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.11927083333333334" />
         <entry key="..\:/Users/ander/noughtsAndCrosses/app/src/main/res/drawable-v24/ic_noughts_and_krosses.xml" value="0.10729166666666666" />
         <entry key="..\:/Users/ander/noughtsAndCrosses/app/src/main/res/drawable-v26/ic_noughts_and_crosses.xml" value="0.1" />
+        <entry key="..\:/Users/ander/noughtsAndCrosses/app/src/main/res/drawable/back.xml" value="0.1" />
         <entry key="..\:/Users/ander/noughtsAndCrosses/app/src/main/res/drawable/ic_launcher_background.xml" value="0.11927083333333334" />
-        <entry key="..\:/Users/ander/noughtsAndCrosses/app/src/main/res/layout/activity_game.xml" value="0.10131712259371833" />
-        <entry key="..\:/Users/ander/noughtsAndCrosses/app/src/main/res/layout/activity_main.xml" value="0.335" />
+        <entry key="..\:/Users/ander/noughtsAndCrosses/app/src/main/res/layout/activity_game.xml" value="0.165" />
+        <entry key="..\:/Users/ander/noughtsAndCrosses/app/src/main/res/layout/activity_main.xml" value="0.125" />
         <entry key="..\:/Users/ander/noughtsAndCrosses/app/src/main/res/layout/dialog_create_game.xml" value="0.1" />
         <entry key="..\:/Users/ander/noughtsAndCrosses/app/src/main/res/layout/dialog_join_game.xml" value="0.1" />
         <entry key="..\:/Users/ander/noughtsAndCrosses/app/src/main/res/layout/dialog_update_game.xml" value="0.1" />
