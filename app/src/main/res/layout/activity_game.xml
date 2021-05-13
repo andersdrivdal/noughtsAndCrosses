@@ -199,17 +199,36 @@
         app:layout_constraintStart_toEndOf="@+id/lowMiddle"
         app:layout_constraintTop_toBottomOf="@+id/midLeft" />
 
-    <Button
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/lowMiddle"
-        android:layout_marginTop="60dp"
-        android:id="@+id/exitGame"
-        android:text="Exit"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        >
+        app:layout_constraintStart_toStartOf="parent">
 
-    </Button>
+        <Button
+            android:id="@+id/resetGame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:layout_marginRight="10dp"
+            android:text="Reset">
+
+        </Button>
+
+        <Button
+            android:id="@+id/exitGame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="60dp"
+            android:text="Exit">
+
+        </Button>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

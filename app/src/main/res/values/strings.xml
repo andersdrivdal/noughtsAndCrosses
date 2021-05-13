@@ -4,7 +4,7 @@
     <string name="protocol">https://</string>
     <string name="domain">generic-game-service.herokuapp.com</string>
     <string name="base_path">/Game</string>
-    <string name="create_game_path">/Game</string>
+
     <string name="game_service_key">yHSNBWpygM</string>
     <string name="game_id_pretext">Game ID: </string>
 
@@ -12,7 +12,7 @@
     <string name="knots_and_crosses">Noughts and Crosses</string>
     <string name="start">Start</string>
     <string name="join">Join</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="player_name">Player name</string>
     <string name="game_id">Game ID</string>

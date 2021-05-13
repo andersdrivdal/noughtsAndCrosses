@@ -3,6 +3,7 @@ package com.example.noughtsandcrosses
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.noughtsandcrosses.databinding.ActivityGameBinding
+import kotlinx.android.synthetic.main.activity_game.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -40,7 +41,16 @@ class GameActivity : AppCompatActivity() {
         binding.lowMiddle.setOnClickListener { onPiecePlaced(Position(2, 1)) }
         binding.lowRight.setOnClickListener { onPiecePlaced(Position(2, 2)) }
 
-        binding.exitGame.setOnClickListener { finish() }
+
+        binding.resetGame.setOnClickListener{
+            GameManager.resetGame()
+            Holders.GameFinishedHolder.finished = false
+            updateScreen()
+        }
+
+        binding.exitGame.setOnClickListener{
+            finish()
+        }
 
     }
 
@@ -50,7 +60,7 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
-    private fun countCurrentBoard(): Int {
+    private fun countCurrentGameBoard(): Int {
         var count = 0
         for (row in 0..2) {
             for (column in 0..2) {
@@ -64,12 +74,10 @@ class GameActivity : AppCompatActivity() {
 
     private fun move(): Boolean {
         var yourMove = false
-        val count = countCurrentBoard()
+        val count = countCurrentGameBoard()
         when (Holders.PlayerPieceHolder.YourPlayerPiece) {
-            "X" -> {when (count){0, 2, 4, 6, 8 -> yourMove = true}
-            }
-            "O" -> {when (count){1, 3, 5, 7 -> yourMove = true}
-            }
+            "X" -> {when (count){0, 2, 4, 6, 8 -> yourMove = true}}
+            "O" -> {when (count){1, 3, 5, 7 -> yourMove = true}}
         }
         return yourMove
     }
@@ -115,34 +123,34 @@ class GameActivity : AppCompatActivity() {
 
     private fun gameFinishedTest() {
         val game = Holders.GameSessionHolder.GameSession?.state!!
+        if (!Holders.GameFinishedHolder.finished && countCurrentGameBoard() == 9) {
+            "Draw!".also { binding.GameIdText.text = it }
+        }
         when (Holders.PlayerPieceHolder.YourPlayerPiece) {
             "X" -> {
                 if (GameManager.checkGameStatus("X", game) != null) {
-                    GameManager.checkGameStatus("X", game)//?.let { showWinner(it) }
-                    binding.GameIdText.text = "Winner!"
+                    GameManager.checkGameStatus("X", game)
+                    "Winner!".also { binding.GameIdText.text = it }
                     Holders.GameFinishedHolder.finished = true
                 }
                 if (GameManager.checkGameStatus("O", game) != null) {
-                    GameManager.checkGameStatus("O", game)//?.let { showWinner(it) }
-                    binding.GameIdText.text = "Loser!"
+                    GameManager.checkGameStatus("O", game)
+                    "Loser!".also { binding.GameIdText.text = it }
                     Holders.GameFinishedHolder.finished = true
                 }
             }
             "O" -> {
                 if (GameManager.checkGameStatus("O", game) != null) {
-                    GameManager.checkGameStatus("O", game)//?.let { showWinner(it) }
-                    binding.GameIdText.text = "Winner!"
+                    GameManager.checkGameStatus("O", game)
+                    "Winner!".also { binding.GameIdText.text = it }
                     Holders.GameFinishedHolder.finished = true
                 }
                 if (GameManager.checkGameStatus("X", game) != null) {
-                    GameManager.checkGameStatus("X", game)//?.let { showWinner(it) }
-                    binding.GameIdText.text = "Loser!"
+                    GameManager.checkGameStatus("X", game)
+                    "Loser!".also { binding.GameIdText.text = it }
                     Holders.GameFinishedHolder.finished = true
                 }
             }
-        }
-        if (countCurrentBoard() == 9 && !Holders.GameFinishedHolder.finished) {
-            binding.GameIdText.text = "Draw!"
         }
     }
 }
